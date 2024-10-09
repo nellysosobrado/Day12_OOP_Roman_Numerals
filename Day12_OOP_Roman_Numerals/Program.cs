@@ -43,29 +43,21 @@ namespace Day12_OOP_Roman_Numerals
                 int total = 0;
                 int value = 0;
 
-                foreach (char number in input)
+                Dictionary<char, int> RomerskaSiffrorBetydelse = new Dictionary<char, int>
                 {
-                    int currentValue = 0;
-
-                    switch (number)
-                    {
-                        case 'I': currentValue = 1;
-                            break;
-                        case 'V': currentValue = 5; 
-                            break;
-                        case 'X': currentValue = 10;
-                            break;
-                        case 'L': currentValue = 50;
-                            break;
-                        case 'C': currentValue = 100;
-                            break;
-                        case 'D': currentValue = 500;
-                            break;
-                        case 'M': currentValue = 1000;
-                            break;
-
-                    } 
-                    if (currentValue > value)
+                { 'I', 1 },
+                { 'V', 5 },
+                { 'X', 10 },
+                { 'L', 50 },
+                { 'C', 100 },
+                { 'D', 500 },
+                { 'M', 1000 }
+                };
+                for (int i = input.Length - 1; i >= 0; i--) 
+                {
+                    int currentValue = RomerskaSiffrorBetydelse[input[i]];
+                
+                if (currentValue > value)
                     {
                         total += currentValue - 2 * value;
                     }
@@ -74,7 +66,7 @@ namespace Day12_OOP_Roman_Numerals
                         total += currentValue;
                     }
 
-                    value= currentValue;
+                    value = currentValue;
 
                 }
                 Console.WriteLine($"ROman number {input} " +
