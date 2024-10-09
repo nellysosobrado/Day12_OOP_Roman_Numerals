@@ -30,7 +30,7 @@ namespace Day12_OOP_Roman_Numerals
                 int[] values = { 1000, 500, 100, 50, 10, 5, 1 }; 
                 //Roman numbers value. Please note roman numbers, needs to have same type of index as their value element
                 //Example: Roman number "M", M is equal 1000. M index is '0' in char array, and this needs therefore be the same as in value array '0'
-                char[] symbols = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
+                char[] s = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
 
                 // INPUT----------------
                 Console.Write("Enter 'Roman Number': ");
@@ -80,9 +80,9 @@ namespace Day12_OOP_Roman_Numerals
                         int currentValue = 0; //Variable to track the value
 
                         //Loop, to check in symbol array 
-                        for (int j = 0; j < symbols.Length; j++)
+                        for (int j = 0; j < s.Length; j++)
                         {
-                            if (currentSymbol == symbols[j])
+                            if (currentSymbol == s[j])
                             {
                                 currentValue = values[j];// Roman number value adds into variable
                                 break;
