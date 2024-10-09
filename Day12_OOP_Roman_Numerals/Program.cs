@@ -40,13 +40,21 @@ namespace Day12_OOP_Roman_Numerals
                 {
                     ErrorMessage = "Input needs to be uppercase letters";
                     Console.WriteLine(ErrorMessage);
+                    Console.WriteLine("Press any key to continue.. :P");
+                    Console.WriteLine();
+                    Console.ReadKey();
+                    continue;
                     
                 }
                 else if (!Regex.IsMatch(input, romanPattern)) // COmpares, if Input is not a roman number
                 {
                     ErrorMessage = "Input is not a valid Roman number";
                     Console.WriteLine(ErrorMessage);
-                    return;
+                    Console.WriteLine("Press any key to try again :P Loser");
+                    Console.WriteLine();
+                    Console.ReadKey();
+                    continue;
+                    
                 }//----------------
                 else // Converts input to number
                 {
