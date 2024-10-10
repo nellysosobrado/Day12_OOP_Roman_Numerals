@@ -14,7 +14,7 @@ namespace Day12_OOP_Roman_Numerals
         //->Calculate rom number to decimal-format
 
 
-        //OUTPUT
+        //OUTPUT 
         static void Main(string[] args)
         {
             string ErrorMessage = "";
