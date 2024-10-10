@@ -40,8 +40,8 @@ namespace Day12_OOP_Roman_Numerals
             else
             {
                 //Convert rom to number
-                int total = 0;
-                int value = 0;
+                decimal total = 0;
+                decimal value = 0;
 
                 Dictionary<char, int> RomerskaSiffrorBetydelse = new Dictionary<char, int>
                 {
