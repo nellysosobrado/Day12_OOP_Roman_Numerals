@@ -15,6 +15,8 @@ namespace Day12_OOP_Roman_Numerals
         //->Calculate rom number to decimal-format
 
         //OUTPUT
+
+        //Max Roman number is: 3,999 = MMMCMXCIX
         static void Main(string[] args)
         {
             bool prgmRun = true;
@@ -33,7 +35,11 @@ namespace Day12_OOP_Roman_Numerals
                 char[] s = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
 
                 // INPUT----------------
-                Console.Write("Enter 'Roman Number': ");
+                Console.WriteLine();
+                Console.Write("Enter ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.Write(" 'Roman Number': ");
+                Console.ResetColor();//Resets color, so green doesn' affect other texts
                 string input = Console.ReadLine();
                 
 
@@ -63,8 +69,8 @@ namespace Day12_OOP_Roman_Numerals
                 }//----------------
                 else // CALCULATES the user roman number as a integer
                 {
-                    int total = 0;//Variables, to store the rom number as a value
-                    int previousValue = 0; //To handle roman substraction
+                    decimal total = 0;//Variables, to store the rom number as a value
+                    decimal previousValue = 0; //To handle roman substraction
                     
                     //Program will loop trough user,inputed "roman number"
                     //Example: user writes 'IV' which is 4. 
@@ -77,7 +83,7 @@ namespace Day12_OOP_Roman_Numerals
                     for (int i = 0; i < input.Length; i++) //Loops trough user input roman number 
                     {
                         char currentSymbol = input[i]; // STring is an array of char, so we can sepereate each element in input
-                        int currentValue = 0; //Variable to track the value
+                        decimal currentValue = 0; //Variable to track the value
 
                         //Loop, to check in symbol array 
                         for (int j = 0; j < s.Length; j++)
@@ -100,11 +106,8 @@ namespace Day12_OOP_Roman_Numerals
                         previousValue = currentValue; // Update previous value for next iteration
                     }
 
-                    //Decimal convert
-                    decimal decimalResult = Convert.ToDecimal(total);
-
                     Console.WriteLine($"Roman number {input} " +
-                        $"\nDecimal: {decimalResult:F2}");
+                        $"\nDecimal: {total:F2}");
 
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
@@ -125,14 +128,25 @@ namespace Day12_OOP_Roman_Numerals
                     {
                         if (i == selectedIndex)
                         {
-                            Console.ForegroundColor = ConsoleColor.Green; //Highlight
-                            Console.Write("8==D");//Marker
+                            if (options[i] == "Yes")
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            else if (options[i] == "No")
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                            }
+                            Console.Write(" --> ");
 
                         }
                         else
                         {
+                            Console.ResetColor();
+                           
                             Console.Write(" ");//Make sure the other option is not selected
                         }
+
+
                         Console.WriteLine(options[i]);
                         Console.ResetColor();//Resets color after highlgihted
                     }
