@@ -123,6 +123,8 @@ namespace Day12_OOP_Roman_Numerals
                     Console.Clear();
 
                     Console.WriteLine("Do you want to play again?");
+                    Console.WriteLine();
+                    Console.WriteLine("Use arrow key to navigate. Press 'Enter' to select");
 
                     for (int i = 0; i < options.Length; i++)
                     {
