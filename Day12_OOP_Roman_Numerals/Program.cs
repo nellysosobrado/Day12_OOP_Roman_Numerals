@@ -41,12 +41,12 @@ namespace Day12_OOP_Roman_Numerals
                 Console.Write(" 'Roman Number': ");
                 Console.ResetColor();//Resets color, so green doesn' affect other texts
                 string input = Console.ReadLine();
-                
+
 
 
                 //IF statements
-                  //Checks if input is Upper case
-                  //if not, error message displays
+                //Checks if input is Upper case
+                //if not, error message displays
                 if (input != input.ToUpper())
                 {
                     ErrorMessage = "Input needs to be uppercase letters";
@@ -55,7 +55,7 @@ namespace Day12_OOP_Roman_Numerals
                     Console.WriteLine();
                     Console.ReadKey();
                     continue; //Goes back to the star to of while-loop so user can re-enter correct input
-                    
+
                 }
                 else if (!Regex.IsMatch(input, romanPattern)) // Compares user input to roman number pattern. If not then error messages displays
                 {
@@ -65,13 +65,23 @@ namespace Day12_OOP_Roman_Numerals
                     Console.WriteLine();
                     Console.ReadKey();
                     continue;
-                    
+                }
+
+                else if (string.IsNullOrWhiteSpace(input) || input.Any(c => !char.IsUpper(c) && !char.IsWhiteSpace(c)))
+                {
+                    ErrorMessage = "Input should not contain spaces or symbols that are not Roman letters.";
+                    Console.WriteLine(ErrorMessage);
+                    Console.WriteLine("You can try again. Press any key to continue.");
+                    Console.WriteLine();
+                    Console.ReadKey();
+                    continue;
+
                 }//----------------
                 else // CALCULATES the user roman number as a integer
                 {
                     decimal total = 0;//Variables, to store the rom number as a value
                     decimal previousValue = 0; //To handle roman substraction
-                    
+
                     //Program will loop trough user,inputed "roman number"
                     //Example: user writes 'IV' which is 4. 
                     //Program will loop trough 'IV' seperated, as an array. 
@@ -79,7 +89,7 @@ namespace Day12_OOP_Roman_Numerals
                     // Program will check first index of 'IV', first index is 'I'. Progrma will check this index value, and add the representant value into variable "CurrentVGvalue" each time it loops
                     //Reason for two seperated variables 'currentvalue and 'previousvalue' is to handle special roman numbers like "IV"
                     // I = 1 , V = 5. Smaller number substract the bigger number.
-                    
+
                     for (int i = 0; i < input.Length; i++) //Loops trough user input roman number 
                     {
                         char currentSymbol = input[i]; // STring is an array of char, so we can sepereate each element in input
@@ -111,7 +121,7 @@ namespace Day12_OOP_Roman_Numerals
 
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
-       
+
                 }//End if-statements
 
                 //Controlls if player wants to play again-------------------------------s
