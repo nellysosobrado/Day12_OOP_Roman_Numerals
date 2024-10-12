@@ -6,47 +6,55 @@ namespace Day12_OOP_Roman_Numerals
 {
     internal class Program
     {
-        //INPUT
-          // IF statements: 
-                           //>Check if it's a string
-          //Check Uppercase
-          //>Check if it's a rom number
-
-        //->Calculate rom number to decimal-format
-
-        //OUTPUT
 
         //Max Roman number is: 3,999 = MMMCMXCIX
         static void Main(string[] args)
         {
+            //----------------------------------
+            //GET Input
+            //Check Input (If-statements):
+            // Check if input is uppercase
+            //Check if input matches roman symbol/pattern
+            //Check if user doesn't enter any input at all
+
+            //Converts roman number into decimal
+            //OUTPUT
+            //Play again?
+            //----------------------------------
+
+            //Max Roman number is: 3,999 = MMMCMXCIX
+
             bool prgmRun = true;
 
-            while(prgmRun)
+            while (prgmRun)
             {
-                string ErrorMessage = ""; //Variabel to store, error messages
+                string ErrorMessage = ""; //To store error-messages
 
-                string romanPattern = "^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$";//Regex symbol/rules/pattern declares into an string variable. 
-                 //Reason: To use this variable as an comparer, if user input is similiar to an 'rom number/pattern'
+                //Regex symbol/rules/pattern declares into an string variable.
+                //Reason: To use this variable as an comparer, if user input is similiar to an 'rom number/pattern'
+                string romanPattern = "^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$";
 
-                //Array: Roman numbers & their values in seperate arrays ------------------
-                int[] values = { 1000, 500, 100, 50, 10, 5, 1 }; 
-                //Roman numbers value. Please note roman numbers, needs to have same type of index as their value element
-                //Example: Roman number "M", M is equal 1000. M index is '0' in char array, and this needs therefore be the same as in value array '0'
-                char[] s = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
+                // A collection of key value pairs = Dictionary
+                Dictionary<char, int> RomanNumbers = new Dictionary<char, int>
+                {
+                    { 'I', 1 },
+                    { 'V', 5 },
+                    { 'X', 10 },
+                    { 'L', 50 },
+                    { 'C', 100 },
+                    { 'D', 500 },
+                    { 'M', 1000 }
+                };
 
-                // INPUT----------------
+                //GET user input ---------------
                 Console.WriteLine();
-                Console.Write("Enter ");
+                Console.Write("Enter");
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write(" 'Roman Number': ");
                 Console.ResetColor();//Resets color, so green doesn' affect other texts
                 string input = Console.ReadLine();
 
-
-
-                //IF statements
-                //Checks if input is Upper case
-                //if not, error message displays
+                // If-statement: Check user input ---------------------------------------------
                 if (input != input.ToUpper())
                 {
                     ErrorMessage = "Input needs to be uppercase letters";
@@ -54,7 +62,7 @@ namespace Day12_OOP_Roman_Numerals
                     Console.WriteLine("Press any key to continue.. :P");
                     Console.WriteLine();
                     Console.ReadKey();
-                    continue; //Goes back to the star to of while-loop so user can re-enter correct input
+                    continue; //Goes back to while-loop, until user enters correct input
 
                 }
                 else if (!Regex.IsMatch(input, romanPattern)) // Compares user input to roman number pattern. If not then error messages displays
@@ -67,7 +75,7 @@ namespace Day12_OOP_Roman_Numerals
                     continue;
                 }
 
-                else if (string.IsNullOrWhiteSpace(input) || input.Any(c => !char.IsUpper(c) && !char.IsWhiteSpace(c)))
+                else if (string.IsNullOrWhiteSpace(input) || input.Any(c => !char.IsUpper(c) && !char.IsWhiteSpace(c))) //Checks if user input is empty
                 {
                     ErrorMessage = "Input should not contain spaces or symbols that are not Roman letters.";
                     Console.WriteLine(ErrorMessage);
@@ -76,67 +84,52 @@ namespace Day12_OOP_Roman_Numerals
                     Console.ReadKey();
                     continue;
 
-                }//----------------
-                else // CALCULATES the user roman number as a integer
+                }
+                else //CONVERT Roman Number to decimal ----------------
                 {
                     decimal total = 0;//Variables, to store the rom number as a value
-                    decimal previousValue = 0; //To handle roman substraction
+                    decimal previousValue = 0; //In order to compare the different index value incase program recieves an special roman number like: IV
 
-                    //Program will loop trough user,inputed "roman number"
-                    //Example: user writes 'IV' which is 4. 
-                    //Program will loop trough 'IV' seperated, as an array. 
-                    //String text, are array of char which means we can check their "index" seperatedly. 
-                    // Program will check first index of 'IV', first index is 'I'. Progrma will check this index value, and add the representant value into variable "CurrentVGvalue" each time it loops
-                    //Reason for two seperated variables 'currentvalue and 'previousvalue' is to handle special roman numbers like "IV"
-                    // I = 1 , V = 5. Smaller number substract the bigger number.
 
-                    for (int i = 0; i < input.Length; i++) //Loops trough user input roman number 
+                    for (int i = 0; i < input.Length; i++) //String variables, are an array of chars. Which means we can loop trough user's input index seperatetly. 
                     {
-                        char currentSymbol = input[i]; // STring is an array of char, so we can sepereate each element in input
-                        decimal currentValue = 0; //Variable to track the value
+                        int currentValue = RomanNumbers[input[i]];
 
-                        //Loop, to check in symbol array 
-                        for (int j = 0; j < s.Length; j++)
+                        //If-statements, to handle special roman numbers-----------
+                        if (previousValue < currentValue)
                         {
-                            if (currentSymbol == s[j])
-                            {
-                                currentValue = values[j];// Roman number value adds into variable
-                                break;
-                            }
-                        }
-                        // If the roman number is 'special' for example IV, it will handle the calculation to correct value
-                        if (currentValue > previousValue)
-                        {
+                            // Minus the previous value, reason being it was already added earlier
                             total += currentValue - 2 * previousValue;
                         }
                         else
                         {
+                            // Current values added with the total
                             total += currentValue;
                         }
-                        previousValue = currentValue; // Update previous value for next iteration
-                    }
 
+                        // Update the previous value to the current one for the next iteration
+                        previousValue = currentValue;
+                    }
                     Console.WriteLine($"Roman number {input} " +
-                        $"\nDecimal: {total:F2}");
+                            $"\nDecimal: {total:F2}");
 
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
 
                 }//End if-statements
 
-                //Controlls if player wants to play again-------------------------------s
+                //Controlls if player wants to play again-------------------------------
                 int selectedIndex = 0;
                 string[] options = { "Yes", "No" };
                 ConsoleKey key;//reads pressed key, declares into key as variable
                 do
                 {
-                    Console.Clear();
-
+                    Console.Clear();//Resets console window
                     Console.WriteLine("Do you want to play again?");
                     Console.WriteLine();
                     Console.WriteLine("Use arrow key to navigate. Press 'Enter' to select");
 
-                    for (int i = 0; i < options.Length; i++)
+                    for (int i = 0; i < options.Length; i++) //Loops trough array with options: yes,no
                     {
                         if (i == selectedIndex)
                         {
@@ -154,7 +147,7 @@ namespace Day12_OOP_Roman_Numerals
                         else
                         {
                             Console.ResetColor();
-                           
+
                             Console.Write(" ");//Make sure the other option is not selected
                         }
 
@@ -196,8 +189,6 @@ namespace Day12_OOP_Roman_Numerals
                 {
                     prgmRun = true;
                 }
-                
-
             }//End of while
         }
     }
