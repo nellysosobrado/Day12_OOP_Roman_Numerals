@@ -10,7 +10,7 @@ namespace Day12_OOP_Roman_Numerals
     public class RomanNumeralsClass
     {
 
-        public void GatherRomanInput()
+        public void GatherRomanInput()//Responbisbility of users input, and give error message
         {
             bool prgmRun = true;
 
@@ -30,7 +30,7 @@ namespace Day12_OOP_Roman_Numerals
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write(" 'Roman Number': ");
                 Console.ResetColor();//Resets color, so green doesn' affect other texts
-                string input = Console.ReadLine();
+                string input = Console.ReadLine() ?? string.Empty; //Gets uesrs input, and if its empty returns emptry string instead of null
 
                 // If-statement: Check user input ---------------------------------------------
                 if (input != input.ToUpper())
@@ -42,7 +42,7 @@ namespace Day12_OOP_Roman_Numerals
                     Console.WriteLine();
                     Console.ReadKey();
                     continue; //Goes back to while-loop, until user enters correct input
-                    
+
 
                 }
                 else if (!Regex.IsMatch(input, romanPattern)) // Compares user input to roman number pattern. If not then error messages displays
@@ -67,8 +67,8 @@ namespace Day12_OOP_Roman_Numerals
                 }
                 else //CONVERT Roman Number to decimal ----------------
                 {
-                     RomanNumeralsClass convert= new RomanNumeralsClass();
-                     decimal UserConvertedInput =convert.RomanToInt(input);
+
+                    decimal UserConvertedInput= RomanToInt(input); //Call method, sends user input as parameter
 
                     Console.WriteLine($"Roman number {input} " +
                             $"\nDecimal: {UserConvertedInput:F2}");
@@ -76,88 +76,30 @@ namespace Day12_OOP_Roman_Numerals
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
 
-
                 }//End if-statements
 
                 Console.Clear();
 
-                //Controlls if player wants to play again-------------------------------
-                int selectedIndex = 0;
-                string[] options = { "Yes", "No" };
-                ConsoleKey key;//reads pressed key, declares into key as variable
-                do
+                PlayAgain PlayAgain = new PlayAgain();
+                bool answer = PlayAgain.StartAgain();
+
+                if (answer == false)
                 {
-                    Console.Clear();//Resets console window
-                    Console.WriteLine("Do you want to play again?");
-                    Console.WriteLine();
-                    Console.WriteLine("Use arrow key to navigate. Press 'Enter' to select");
-
-                    for (int i = 0; i < options.Length; i++) //Loops trough array with options: yes,no
-                    {
-                        if (i == selectedIndex)
-                        {
-                            if (options[i] == "Yes")
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                            }
-                            else if (options[i] == "No")
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                            }
-                            Console.Write(" --> ");
-
-                        }
-                        else
-                        {
-                            Console.ResetColor();
-
-                            Console.Write(" ");//Make sure the other option is not selected
-                        }
-
-
-                        Console.WriteLine(options[i]);
-                        Console.ResetColor();//Resets color after highlgihted
-                    }
-                    key = Console.ReadKey(true).Key;//user key declares into variable
-
-                    //If-statements: Controlls which arrow
-                    if (key == ConsoleKey.UpArrow)
-                    {
-                        selectedIndex--; //Moves marker up, which means goes back in array index exempel []: 0, 1
-                        if (selectedIndex < 0)
-                        {
-                            selectedIndex = options.Length - 1; //if user moves up too much, which is out of the array range. It will go back because 2-1 = 1. 1= option 'no'
-
-                        }
-                    }
-                    else if (key == ConsoleKey.DownArrow)
-                    {
-                        selectedIndex++; //Moves marker up, basically goes right side of array element --> 0 , 1. Right side is '1'
-                        if (selectedIndex >= options.Length) //controlls the users navigation so it doesnt go outside of the array length
-                        {
-                            selectedIndex = 0;
-                        }
-                    }
-
-                }
-                while (key != ConsoleKey.Enter); //Loops until user press 'Enter'
-
-                Console.WriteLine("You selected " + options[selectedIndex]);
-
-                if (options[selectedIndex] == "No")
-                {
+                    Console.WriteLine("Program ending");
                     prgmRun = false;
                 }
                 else
                 {
                     prgmRun = true;
                 }
-            }//End of while
-        }
-        public decimal RomanToInt(string input)
-        {
-            // A collection of key value pairs = Dictionary
-            Dictionary<char, int> RomanNumbers = new Dictionary<char, int>
+
+
+            }
+            static decimal RomanToInt(string input)
+            {
+                //Roman rule: If first number is small, it will substract the 
+
+                Dictionary<char, int> RomanNumbers = new Dictionary<char, int>// A collection of key value pairs = Dictionary
                 {
                     { 'I', 1 },
                     { 'V', 5 },
@@ -168,32 +110,33 @@ namespace Day12_OOP_Roman_Numerals
                     { 'M', 1000 }
                 };
 
-                    decimal total = 0;//Variables, to store the rom number as a value
-                    decimal previousValue = 0; //In order to compare the different index value incase program recieves an special roman number like: IV
+                decimal total = 0;//Variables, to store the rom number as a value
+                decimal previousValue = 0; //In order to compare the different index value incase program recieves an special roman number like: IV
 
 
-                    for (int i = 0; i < input.Length; i++) //String variables, are an array of chars. Which means we can loop trough user's input index seperatetly. 
+                for (int i = 0; i < input.Length; i++) //String variables, are an array of chars. Which means we can loop trough user's input index seperatetly. 
+                {
+                    int currentValue = RomanNumbers[input[i]];
+
+                    //If-statements, to handle special roman numbers-----------
+                    if (previousValue < currentValue)
                     {
-                        int currentValue = RomanNumbers[input[i]];
-
-                        //If-statements, to handle special roman numbers-----------
-                        if (previousValue < currentValue)
-                        {
-                            // Minus the previous value, reason being it was already added earlier
-                            total += currentValue - 2 * previousValue;
-                        }
-                        else
-                        {
-                            // Current values added with the total
-                            total += currentValue;
-                        }
-
-                        // Update the previous value to the current one for the next iteration
-                        previousValue = currentValue;
+                        // Minus the previous value, reason being it was already added earlier
+                        total += currentValue - 2 * previousValue;
                     }
-                    
-            return total;
+                    else
+                    {
+                        // Current values added with the total
+                        total += currentValue;
+                    }
+
+                    // Update the previous value to the current one for the next iteration
+                    previousValue = currentValue;
+                }
+
+                return total;
+            }
         }
+
     }
-    
 }
