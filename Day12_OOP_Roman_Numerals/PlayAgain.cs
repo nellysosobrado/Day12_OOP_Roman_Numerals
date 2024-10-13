@@ -8,7 +8,7 @@ namespace Day12_OOP_Roman_Numerals
 {
     public class PlayAgain
     {
-        public static bool StartAgain()
+        public bool StartAgain()
         {
             //Controlls if player wants to play again-------------------------------
             int selectedIndex = 0;
