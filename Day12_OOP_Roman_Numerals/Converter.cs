@@ -8,9 +8,15 @@ namespace Day12_OOP_Roman_Numerals
 {
     public class Converter
     {
-        public decimal RomanToInt(string input)
+        /// <summary>
+        /// Converts, Useres string input to a decimal
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        ///
+        public decimal RomanToInt(string input) //2. Converts user input to decimal 
         {
-            //Roman rule: If first number is small, it will substract the 
+            
 
             Dictionary<char, int> RomanNumbers = new Dictionary<char, int>// A collection of key value pairs = Dictionary
             {
@@ -29,7 +35,11 @@ namespace Day12_OOP_Roman_Numerals
 
             for (int i = 0; i < input.Length; i++) //String variables, are an array of chars. Which means we can loop trough user's input index seperatetly. 
             {
-                int currentValue = RomanNumbers[input[i]];
+                //loops depending on user inpt lenght. 
+                //With dictionary it will search the letter seperatetly
+
+                //Roman rule: If first number is small, it will substract the 
+                decimal currentValue = RomanNumbers[input[i]];
 
                 //If-statements, to handle special roman numbers-----------
                 if (previousValue < currentValue)
@@ -38,6 +48,7 @@ namespace Day12_OOP_Roman_Numerals
                     total += currentValue - 2 * previousValue;
                 }
                 else
+                
                 {
                     // Current values added with the total
                     total += currentValue;

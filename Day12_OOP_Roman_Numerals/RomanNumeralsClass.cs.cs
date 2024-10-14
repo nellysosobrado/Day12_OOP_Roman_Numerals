@@ -17,7 +17,7 @@ namespace Day12_OOP_Roman_Numerals
 
             while (prgmRun)
             {
-                //GET user input ---------------
+                //1. GET user input ---------------
                 Console.Clear();
                 Console.WriteLine();
                 Console.Write("Enter");
@@ -34,7 +34,7 @@ namespace Day12_OOP_Roman_Numerals
                 string errorMessage;
                 bool isValid = errorManager.CheckUserInput(input, out errorMessage);
 
-                //Check the errrormesage
+                //Check the errrormesage, False = error, True = no error
                 if (!isValid)
                 {
                     Console.Clear();
@@ -44,17 +44,19 @@ namespace Day12_OOP_Roman_Numerals
                     continue; //goes back to the loop, to try again
                 }
 
-                //Converting ------------
+                //Converting ----------------------------------------
                 Converter romantoint = new Converter();
                 decimal UserConvertedInput = romantoint.RomanToInt(input);
 
+
+                //DISPLAY-------------------------------------------
                 Console.WriteLine($"Roman number {input}" +
                     $"\nDecimal: {UserConvertedInput}");
 
                 Console.WriteLine("Press any key to continue");
                 Console.ReadKey();
 
-                //Play again
+                //Play again------------------------------------
                 PlayAgain playagain = new PlayAgain();
                 playagain.StartAgain();
 
