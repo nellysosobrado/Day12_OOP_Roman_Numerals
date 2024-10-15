@@ -1,69 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System;
 
 namespace Day12_OOP_Roman_Numerals
 {
     public class RomanNumeralsClass
     {
-
-        public void GatherRomanInput()//Responbisbility of users input, and give error message
+        public void GatherRomanInput() //Responbisbility of users input, and give error message
         {
             bool prgmRun = true;
 
             while (prgmRun)
             {
-                //1. GET user input ---------------
+                //Displaying the color of the title and the text that is written in the command prompt.
                 Console.Clear();
-                Console.WriteLine();
-                Console.Write("Enter");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write(" 'Roman Number': ");
-                Console.ResetColor();//Resets color, so green doesn' affect other texts
-                string input = Console.ReadLine() ?? string.Empty; //Gets uesrs input, and if its empty returns emptry string instead of null
+                SetConsoleTitle();
+                CenterText("Enter 'Roman Number':", ConsoleColor.Magenta);
 
+                //1. GET User Input -------------
+                string input = Console.ReadLine() ?? string.Empty;
 
-                //ERROR MANAGER ----------------------------------------
-                ErrorManager errorManager= new ErrorManager();
+                //ERROR Manager ----------------------------------------
+                ErrorManager errorManager = new ErrorManager();
 
-                //Check the input 
+                // Check the input
                 string errorMessage;
                 bool isValid = errorManager.CheckUserInput(input, out errorMessage);
 
-                //Check the errrormesage, False = error, True = no error
+                // Check the errrormesage, False = error, True = no error.
                 if (!isValid)
                 {
                     Console.Clear();
-                    Console.WriteLine(errorMessage);
-                    Console.WriteLine("Press any key to try again");
+                    CenterText(errorMessage, ConsoleColor.Red);
+                    CenterText("Press any key to try again...", ConsoleColor.Yellow);
                     Console.ReadKey();
-                    continue; //goes back to the loop, to try again
+                    continue;
                 }
 
-                //Converting ----------------------------------------
+                // Converting ----------------------------------------
                 Converter romantoint = new Converter();
-                decimal UserConvertedInput = romantoint.RomanToInt(input);
+                decimal userConvertedInput = romantoint.RomanToInt(input);
 
+                //DISPLAY
+                CenterText($"Roman number: {input}", ConsoleColor.Green);
+                CenterText($"Decimal: {userConvertedInput}", ConsoleColor.Cyan);
 
-                //DISPLAY-------------------------------------------
-                Console.WriteLine($"Roman number {input}" +
-                    $"\nDecimal: {UserConvertedInput}");
-
-                Console.WriteLine("Press any key to continue");
+                CenterText("Press any key to continue...", ConsoleColor.Yellow);
                 Console.ReadKey();
 
-                //Play again------------------------------------
+                //Play Again ------------------------------------
                 PlayAgain playagain = new PlayAgain();
-                playagain.StartAgain();
-
+                prgmRun = playagain.StartAgain();
             }
-
-            
         }
 
+        // CenterText to align the text in the middle of the command prompt
+        private void CenterText(string text, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.ForegroundColor = color;
+            int screenWidth = Console.WindowWidth;
+            int textWidth = text.Length;
+            int spaces = (screenWidth / 2) - (textWidth / 2);
+            Console.SetCursorPosition(Math.Max(0, spaces), Console.CursorTop);
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
+        // Displaying the title in the middle of the command prompt, in ASCII art
+        private void SetConsoleTitle()
+        {
+            string title = @"
+ ____                               _   _                                _ _     
+|  _ \ ___  _ __ ___   __ _ _ __   | \ | |_   _ _ __ ___   ___ _ __ __ _| ( )___ 
+| |_) / _ \| '_ ` _ \ / _` | '_ \  |  \| | | | | '_ ` _ \ / _ \ '__/ _` | |// __|
+|  _ < (_) | | | | | | (_| | | | | | |\  | |_| | | | | | |  __/ | | (_| | | \__ \
+|_| \_\___/|_| |_| |_|\__,_|_| |_| |_| \_|\__,_|_| |_| |_|\___|_|  \__,_|_| |___/
+";
+
+            string[] titleLines = title.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            int screenHeight = Console.WindowHeight;
+            int titleHeight = titleLines.Length;
+
+            // Center vertically
+            int verticalPadding = (screenHeight / 2) - (titleHeight / 2);
+            Console.SetCursorPosition(0, Math.Max(0, verticalPadding));
+
+            // Center horizontally and write each line
+            foreach (string line in titleLines)
+            {
+                CenterText(line, ConsoleColor.Yellow);
+            }
+        }
     }
 }
